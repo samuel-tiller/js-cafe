@@ -28,13 +28,47 @@ let products = {
 
 function displayProducts () {
   
-  document.getElementById("whiteCoffee").innerHTML = `White Coffee: ${products.whiteCoffee.stock}`
+  /*document.getElementById("whiteCoffee").innerHTML = `White Coffee: ${products.whiteCoffee.stock}`
   document.getElementById("blackCoffee").innerHTML = `Black Coffee: ${products.blackCoffee.stock}`
   document.getElementById("muffin").innerHTML = `Muffin: ${products.muffin.stock}`
-  document.getElementById("eggs").innerHTML = `Eggs: ${products.eggs.stock}`
+  document.getElementById("eggs").innerHTML = `Eggs: ${products.eggs.stock}`*/
+  
+  
+  let displayNames = Object.keys(products)
+  
+  for (let i = 0; i < displayNames.length; i++){
+
+    const el = document.getElementById(displayNames[i])
+    const item = products[displayNames[i]]
+
+    el.innerHTML = `${displayNames[i]}: ${item.stock}`
+
+    if (item.stock === 0){
+      el.classList.add("noStock")     
+    }
+    else{
+      el.classList.remove("noStock")     
+    }
+  }
 }
 
+
 displayProducts()
+
+function formatProductName(name){
+  let result = ""
+  for (let i = 0; i < name.length; i++){
+    const char = name[i]
+
+    if(char === char.toUpperCase() && i !== 0){
+      result += " " 
+    }
+    result += char
+    
+  }
+  let results = result.slice(1).toUpperCase()
+  return result
+}
 
 
 // Customers //
@@ -98,7 +132,7 @@ function fillOrder (){
 
   let saleTotal = 0
 
-  for (i = 0; i < customer.order.length; i++){
+  for (let i = 0; i < customer.order.length; i++){
     
     let productName = customer.order[i]
 
@@ -107,7 +141,8 @@ function fillOrder (){
       products[productName].stock--
       saleTotal += products[productName].price
 
-    } else{
+    }     
+    else{
         alert(`Sadly we have sold out of ${productName} for today, please try again tommorrow!`)
     }
 
