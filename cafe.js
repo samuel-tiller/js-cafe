@@ -6,22 +6,26 @@ let products = {
   whiteCoffee: {
     stock: 4,
     price: 4,
+    wholesaleCost: 2.25
   },
 
   blackCoffee: {
     stock: 7,
     price: 3.5,
+    wholesaleCost: 2
   },
 
   muffin: {
     stock: 5,
     price: 8.99,
+    wholesaleCost: 4.50
   },
 
   eggs: {
     stock: 4,
     price: 4.49,
-  },
+    wholesaleCost: 3 
+  }
 }
 
 function displayProducts() {
@@ -36,8 +40,12 @@ function displayProducts() {
     const productName = displayNames[i]
     const el = document.getElementById(productName)
     const item = products[productName]
+    const elws = document.getElementById(productName + "Wholesale")
 
     const formattedName = formatProductName(productName)
+
+    elws.innerHTML = `Wholesale Cost: ${products[productName].wholesaleCost}`
+
 
     el.innerHTML = `${formattedName}: ${item.stock}`
 
@@ -105,8 +113,7 @@ function displayCustomerOrder() {
 
   const formattedOrder = customer.order.map(formatProductName)
   const orderString = formattedOrder.join(', ')
-  document.getElementById('customerOrder').innerHTML =
-    `Customer Order: ${orderString}!`
+  document.getElementById('customerOrder').innerHTML = `Customer Order: ${orderString}!`
   document.querySelector("#orderTotal").innerHTML = `Order Total: $${calculateOrderTotal(customer.order)}`
   document.querySelector("#customerMoney").innerHTML = `Customer Money: $${customer.money}`
 }
@@ -115,7 +122,7 @@ function displayCustomerOrder() {
 let cash = 0
 
 function displayCash() {
-  document.getElementById('cash').innerHTML = `Money in the bank: $${cash}`
+  document.getElementById('cash').innerHTML = `Bank Balance: $${cash}`
 }
 displayCash()
 
@@ -250,4 +257,46 @@ function clearCustomerOrder(){
   customer.money = 0
   customer.order = []
   displayCustomerOrder()
+}
+
+document.querySelector("#restock-whiteCoffee").addEventListener('click', (event)=>{
+  let check = event.target.id
+  wholesaleCheck(check)
+})
+
+document.querySelector("#restock-blackCoffee").addEventListener('click', (event)=>{
+  let check = event.target.id
+  wholesaleCheck(check)
+})
+
+document.querySelector("#restock-muffin").addEventListener('click', (event)=>{
+  let check = event.target.id
+  wholesaleCheck(check)
+})
+
+document.querySelector("#restock-eggs").addEventListener('click', (event)=>{
+  let check = event.target.id
+  wholesaleCheck(check)
+})
+
+function wholesaleCheck(check){
+  /*Add event listener to button
+  Compare event.target wholesale price to total cash
+  If okay add 1 stock and minus wholesaleCost from cash
+  If not enough cash - alert and say not enough cash.
+  */
+  let name = check.slice(8)
+  let cost = products[name].wholesaleCost
+  let formattedName = formatProductName(name)
+
+  if (cash < cost){
+    let short = cost - cash
+    alert(`Sorry but you are $${short} short to purchase anymore ${formattedName}, come back when you have more`)
+    return
+  }else{
+    cash -= cost
+    products[name].stock += 1
+    displayCash()
+    displayProducts()
+  }
 }
