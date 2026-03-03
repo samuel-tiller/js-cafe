@@ -66,6 +66,8 @@ let customer = {
   money: 0,
 }
 
+let eggStyles = ["poached", "fried", "scrambled", "raw"]
+
 let minOrderSize = 1
 let maxOrderSize = 5
 
@@ -87,7 +89,11 @@ function generateCustomOrder() {
 
   for (let i = 0; i < orderSize; i++) {
     let productName = productNames[getRandomInt(0, productNames.length - 1)]
-    newOrder.push(productName)
+    if(productName === "eggs"){
+      newOrder.push({name: productName, style: eggStyles[getRandomInt(0, eggStyles.length -1)]})
+    }else{
+      newOrder.push({name: productName})
+    }
   }
 
   customer.order = newOrder
@@ -111,7 +117,13 @@ function displayCustomerOrder() {
   }
   document.getElementById("customerOrder").innerHTML = `Customer Order: ${order}!`*/
 
-  const formattedOrder = customer.order.map(formatProductName)
+  const formattedOrder = customer.order.map(item =>{
+    if(item.style !== undefined){
+      return `${formatProductName(item.name)} (${formatProductName(item.style)})`
+    }else{
+      return `${formatProductName(item.name)}`
+    }
+  })
   const orderString = formattedOrder.join(', ')
   document.getElementById('customerOrder').innerHTML = `Customer Order: ${orderString}!`
   document.querySelector("#orderTotal").innerHTML = `Order Total: $${calculateOrderTotal(customer.order)}`
@@ -153,7 +165,8 @@ function fillOrder() {
 
   const counts = {}
 
-  for (const name of customer.order){
+  for (const item of customer.order){
+    const name = item.name
     if (counts[name] === undefined){
       counts[name] = 1
     } else {
@@ -248,7 +261,7 @@ function calculateOrderTotal(order) {
   let orderTotal = 0
 
   for (let i = 0; i < order.length; i++) {
-    orderTotal += products[order[i]].price
+    orderTotal += products[order[i].name].price
   }
   return orderTotal
 }
