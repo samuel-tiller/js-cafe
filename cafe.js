@@ -150,11 +150,10 @@ function fillOrder() {
 
   /*Calculate total
   Compare calculated total to customers money - if not alert and clear order
-  Check if items are in stock - if any are out alert and clear
+  Check if all items are in stock - if any are out alert and clear
   else we can commit the sale.
   */
 
-  let saleTotal = 0
   let orderTotal = calculateOrderTotal(customer.order)
 
   if (orderTotal > customer.money) {
@@ -162,6 +161,7 @@ function fillOrder() {
     clearCustomerOrder()
     return
   }
+
 
   const counts = {}
 
@@ -184,53 +184,17 @@ function fillOrder() {
   
   for (const name in counts){
     products[name].stock -= counts[name]
-    saleTotal += products[name].price * counts[name]
   }
 
 
-  /*for (let i = 0; i < customer.order.length; i++) {
-    let productName = customer.order[i]
 
-    if (products[productName].stock > 0) {
-      products[productName].stock--
-      saleTotal += products[productName].price
-    } 
-    else {
-      alert(
-        `Sadly we have sold out of ${productName} for today, please try again tommorrow!`
-      )
-      clearCustomerOrder()
-      return
-    }
-  }*/
 
-  cash += saleTotal
+  cash += orderTotal
 
   displayProducts()
   displayCash()
   clearCustomerOrder()
 
-  /*for (let i = 0; i < customer.order.length; i++){
-    
-    let productName = customer.order[i]
-
-    if (products[productName].stock > 0){
-      
-      products[productName].stock--
-      saleTotal += products[productName].price
-
-    }     
-    else{
-        alert(`Sadly we have sold out of ${productName} for today, please try again tommorrow!`)
-    }
-
-  }
-
-  cash += saleTotal
-  customer.order = []
-  displayProducts()
-  displayCash()
-  displayCustomerOrder()*/
 }
 
 document.getElementById('fillOrder').onclick = fillOrder
