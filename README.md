@@ -5,10 +5,9 @@
 ![JavaScript Cafe Screenshot](screenshot.png)
 
 
-A small café simulation built with **JavaScript, HTML, and CSS** that demonstrates DOM manipulation, object-based data management, and transaction logic.
+A small café simulation built with **JavaScript, HTML, and CSS** that demonstrates DOM manipulation, inventory management, and transaction logic.
 
-The application generates random customer orders, calculates totals, processes transactions, manages stock levels, and allows restocking products using café cash.
-
+The application generates random customer orders, calculates totals, processes transactions, manages stock levels, and allows products to be restocked using café cash.
 ---
 
 ## Features
@@ -68,3 +67,15 @@ This project helped reinforce several core JavaScript concepts:
 - Track profit margins
 - Add multiple customers in a queue
 - Improve styling and layout
+
+---
+
+## Live Demo
+
+[View the live project](https://samuel-tiller.github.io/javascript-cafe/)
+
+---
+
+## Author
+
+Sam Tiller
