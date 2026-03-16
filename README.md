@@ -72,7 +72,7 @@ This project helped reinforce several core JavaScript concepts:
 
 ## Live Demo
 
-[View the live project](https://samuel-tiller.github.io/javascript-cafe/)
+[View the live project](https://samuel-tiller.github.io/js-cafe/)
 
 ---
 
