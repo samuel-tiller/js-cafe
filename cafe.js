@@ -2,7 +2,7 @@
 
 // Products //
 
-let products = {
+const products = {
   whiteCoffee: {
     stock: 4,
     price: 4,
@@ -61,12 +61,12 @@ displayProducts()
 
 // Customers //
 
-let customer = {
+const customer = {
   order: [],
   money: 0,
 }
 
-let eggStyles = ["poached", "fried", "scrambled", "raw"]
+const eggStyles = ["poached", "fried", "scrambled", "raw"]
 
 let minOrderSize = 1
 let maxOrderSize = 5
@@ -80,8 +80,6 @@ function generateCustomOrder() {
   let orderSize = getRandomInt(minOrderSize, maxOrderSize)
 
   customer.money = getRandomInt(5, 30)
-
-  //document.querySelector("#customerMoney").innerHTML = `Customer Money: $${customer.money}`
 
   let newOrder = []
 
@@ -103,19 +101,7 @@ function generateCustomOrder() {
 
 document.getElementById('customerButton').onclick = generateCustomOrder
 
-/*document.querySelector("#customerButton").addEventListener('click', (event) => {
-  generateCustomOrder()
-})*/
-
 function displayCustomerOrder() {
-  /*let order = ""
-  for (let i = 0; i < customer.order.length; i++){
-    const orderItem = formatProductName(customer.order[i])
-    
-    order = order + orderItem + ", "
-    
-  }
-  document.getElementById("customerOrder").innerHTML = `Customer Order: ${order}!`*/
 
   const formattedOrder = customer.order.map(item =>{
     if(item.style !== undefined){
@@ -126,7 +112,7 @@ function displayCustomerOrder() {
   })
   const orderString = formattedOrder.join(', ')
   document.getElementById('customerOrder').innerHTML = `Customer Order: ${orderString}!`
-  document.querySelector("#orderTotal").innerHTML = `Order Total: $${calculateOrderTotal(customer.order)}`
+  document.querySelector("#orderTotal").innerHTML = `Order Total: $${calculateOrderTotal(customer.order).toFixed(2)}`
   document.querySelector("#customerMoney").innerHTML = `Customer Money: $${customer.money}`
 }
 
@@ -134,7 +120,7 @@ function displayCustomerOrder() {
 let cash = 0
 
 function displayCash() {
-  document.getElementById('cash').innerHTML = `Bank Balance: $${cash}`
+  document.getElementById('cash').innerHTML = `Bank Balance: $${cash.toFixed(2)}`
 }
 displayCash()
 
@@ -162,7 +148,6 @@ function fillOrder() {
     return
   }
 
-
   const counts = {}
 
   for (const item of customer.order){
@@ -186,15 +171,11 @@ function fillOrder() {
     products[name].stock -= counts[name]
   }
 
-
-
-
   cash += orderTotal
 
   displayProducts()
   displayCash()
   clearCustomerOrder()
-
 }
 
 document.getElementById('fillOrder').onclick = fillOrder
@@ -236,25 +217,16 @@ function clearCustomerOrder(){
   displayCustomerOrder()
 }
 
-document.querySelector("#restock-whiteCoffee").addEventListener('click', (event)=>{
-  let check = event.target.id
-  wholesaleCheck(check)
-})
+//Eventlisteners for Restock buttons
+let displayNames = Object.keys(products)
 
-document.querySelector("#restock-blackCoffee").addEventListener('click', (event)=>{
-  let check = event.target.id
-  wholesaleCheck(check)
-})
+for (let i = 0; i < displayNames.length; i++){
+  const name = displayNames[i]
+  document.querySelector("#restock-" + name).addEventListener('click', (event)=>{
+    wholesaleCheck(event.target.id)
+  })
+}
 
-document.querySelector("#restock-muffin").addEventListener('click', (event)=>{
-  let check = event.target.id
-  wholesaleCheck(check)
-})
-
-document.querySelector("#restock-eggs").addEventListener('click', (event)=>{
-  let check = event.target.id
-  wholesaleCheck(check)
-})
 
 function wholesaleCheck(check){
   /*Add event listener to button
@@ -268,7 +240,7 @@ function wholesaleCheck(check){
 
   if (cash < cost){
     let short = cost - cash
-    alert(`Sorry but you are $${short} short to purchase anymore ${formattedName}, come back when you have more`)
+    alert(`Sorry but you are $${short.toFixed(2)} short to purchase anymore ${formattedName}, come back when you have more`)
     return
   }else{
     cash -= cost
